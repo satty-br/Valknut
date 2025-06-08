@@ -1,0 +1,5679 @@
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_0 = models.BinaryField()
+
+def store_user_data_0(user_data_0_dict):
+    data_0 = pickle.dumps(user_data_0_dict)  # BAD # Variante 0: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_0=data_0)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_0')
+    data_0 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 0: pode executar código malicioso
+    return str(data_0)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_0) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_0));
+    Object obj = ois.readObject();  // BAD # Variante 0
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_0');
+    $object = unserialize($payload);  // BAD # Variante 0
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_0 = req.query.data_0;
+    const obj = eval('(' + data_0 + ')'); // BAD # Variante 0
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_0)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_0))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 0
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_0 = params[:data_0]
+    obj = YAML.load(data_0)  # BAD # Variante 0: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_1 = models.BinaryField()
+
+def store_user_data_1(user_data_1_dict):
+    data_1 = pickle.dumps(user_data_1_dict)  # BAD # Variante 1: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_1=data_1)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_1')
+    data_1 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 1: pode executar código malicioso
+    return str(data_1)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_1) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_1));
+    Object obj = ois.readObject();  // BAD # Variante 1
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_1');
+    $object = unserialize($payload);  // BAD # Variante 1
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_1 = req.query.data_1;
+    const obj = eval('(' + data_1 + ')'); // BAD # Variante 1
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_1)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_1))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 1
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_1 = params[:data_1]
+    obj = YAML.load(data_1)  # BAD # Variante 1: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_2 = models.BinaryField()
+
+def store_user_data_2(user_data_2_dict):
+    data_2 = pickle.dumps(user_data_2_dict)  # BAD # Variante 2: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_2=data_2)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_2')
+    data_2 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 2: pode executar código malicioso
+    return str(data_2)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_2) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_2));
+    Object obj = ois.readObject();  // BAD # Variante 2
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_2');
+    $object = unserialize($payload);  // BAD # Variante 2
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_2 = req.query.data_2;
+    const obj = eval('(' + data_2 + ')'); // BAD # Variante 2
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_2)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_2))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 2
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_2 = params[:data_2]
+    obj = YAML.load(data_2)  # BAD # Variante 2: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_3 = models.BinaryField()
+
+def store_user_data_3(user_data_3_dict):
+    data_3 = pickle.dumps(user_data_3_dict)  # BAD # Variante 3: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_3=data_3)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_3')
+    data_3 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 3: pode executar código malicioso
+    return str(data_3)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_3) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_3));
+    Object obj = ois.readObject();  // BAD # Variante 3
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_3');
+    $object = unserialize($payload);  // BAD # Variante 3
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_3 = req.query.data_3;
+    const obj = eval('(' + data_3 + ')'); // BAD # Variante 3
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_3)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_3))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 3
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_3 = params[:data_3]
+    obj = YAML.load(data_3)  # BAD # Variante 3: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_4 = models.BinaryField()
+
+def store_user_data_4(user_data_4_dict):
+    data_4 = pickle.dumps(user_data_4_dict)  # BAD # Variante 4: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_4=data_4)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_4')
+    data_4 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 4: pode executar código malicioso
+    return str(data_4)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_4) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_4));
+    Object obj = ois.readObject();  // BAD # Variante 4
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_4');
+    $object = unserialize($payload);  // BAD # Variante 4
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_4 = req.query.data_4;
+    const obj = eval('(' + data_4 + ')'); // BAD # Variante 4
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_4)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_4))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 4
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_4 = params[:data_4]
+    obj = YAML.load(data_4)  # BAD # Variante 4: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_5 = models.BinaryField()
+
+def store_user_data_5(user_data_5_dict):
+    data_5 = pickle.dumps(user_data_5_dict)  # BAD # Variante 5: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_5=data_5)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_5')
+    data_5 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 5: pode executar código malicioso
+    return str(data_5)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_5) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_5));
+    Object obj = ois.readObject();  // BAD # Variante 5
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_5');
+    $object = unserialize($payload);  // BAD # Variante 5
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_5 = req.query.data_5;
+    const obj = eval('(' + data_5 + ')'); // BAD # Variante 5
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_5)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_5))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 5
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_5 = params[:data_5]
+    obj = YAML.load(data_5)  # BAD # Variante 5: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_6 = models.BinaryField()
+
+def store_user_data_6(user_data_6_dict):
+    data_6 = pickle.dumps(user_data_6_dict)  # BAD # Variante 6: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_6=data_6)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_6')
+    data_6 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 6: pode executar código malicioso
+    return str(data_6)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_6) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_6));
+    Object obj = ois.readObject();  // BAD # Variante 6
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_6');
+    $object = unserialize($payload);  // BAD # Variante 6
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_6 = req.query.data_6;
+    const obj = eval('(' + data_6 + ')'); // BAD # Variante 6
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_6)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_6))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 6
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_6 = params[:data_6]
+    obj = YAML.load(data_6)  # BAD # Variante 6: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_7 = models.BinaryField()
+
+def store_user_data_7(user_data_7_dict):
+    data_7 = pickle.dumps(user_data_7_dict)  # BAD # Variante 7: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_7=data_7)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_7')
+    data_7 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 7: pode executar código malicioso
+    return str(data_7)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_7) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_7));
+    Object obj = ois.readObject();  // BAD # Variante 7
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_7');
+    $object = unserialize($payload);  // BAD # Variante 7
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_7 = req.query.data_7;
+    const obj = eval('(' + data_7 + ')'); // BAD # Variante 7
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_7)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_7))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 7
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_7 = params[:data_7]
+    obj = YAML.load(data_7)  # BAD # Variante 7: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_8 = models.BinaryField()
+
+def store_user_data_8(user_data_8_dict):
+    data_8 = pickle.dumps(user_data_8_dict)  # BAD # Variante 8: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_8=data_8)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_8')
+    data_8 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 8: pode executar código malicioso
+    return str(data_8)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_8) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_8));
+    Object obj = ois.readObject();  // BAD # Variante 8
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_8');
+    $object = unserialize($payload);  // BAD # Variante 8
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_8 = req.query.data_8;
+    const obj = eval('(' + data_8 + ')'); // BAD # Variante 8
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_8)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_8))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 8
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_8 = params[:data_8]
+    obj = YAML.load(data_8)  # BAD # Variante 8: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_9 = models.BinaryField()
+
+def store_user_data_9(user_data_9_dict):
+    data_9 = pickle.dumps(user_data_9_dict)  # BAD # Variante 9: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_9=data_9)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_9')
+    data_9 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 9: pode executar código malicioso
+    return str(data_9)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_9) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_9));
+    Object obj = ois.readObject();  // BAD # Variante 9
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_9');
+    $object = unserialize($payload);  // BAD # Variante 9
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_9 = req.query.data_9;
+    const obj = eval('(' + data_9 + ')'); // BAD # Variante 9
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_9)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_9))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 9
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_9 = params[:data_9]
+    obj = YAML.load(data_9)  # BAD # Variante 9: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_10 = models.BinaryField()
+
+def store_user_data_10(user_data_10_dict):
+    data_10 = pickle.dumps(user_data_10_dict)  # BAD # Variante 10: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_10=data_10)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_10')
+    data_10 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 10: pode executar código malicioso
+    return str(data_10)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_10) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_10));
+    Object obj = ois.readObject();  // BAD # Variante 10
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_10');
+    $object = unserialize($payload);  // BAD # Variante 10
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_10 = req.query.data_10;
+    const obj = eval('(' + data_10 + ')'); // BAD # Variante 10
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_10)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_10))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 10
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_10 = params[:data_10]
+    obj = YAML.load(data_10)  # BAD # Variante 10: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_11 = models.BinaryField()
+
+def store_user_data_11(user_data_11_dict):
+    data_11 = pickle.dumps(user_data_11_dict)  # BAD # Variante 11: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_11=data_11)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_11')
+    data_11 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 11: pode executar código malicioso
+    return str(data_11)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_11) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_11));
+    Object obj = ois.readObject();  // BAD # Variante 11
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_11');
+    $object = unserialize($payload);  // BAD # Variante 11
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_11 = req.query.data_11;
+    const obj = eval('(' + data_11 + ')'); // BAD # Variante 11
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_11)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_11))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 11
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_11 = params[:data_11]
+    obj = YAML.load(data_11)  # BAD # Variante 11: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_12 = models.BinaryField()
+
+def store_user_data_12(user_data_12_dict):
+    data_12 = pickle.dumps(user_data_12_dict)  # BAD # Variante 12: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_12=data_12)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_12')
+    data_12 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 12: pode executar código malicioso
+    return str(data_12)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_12) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_12));
+    Object obj = ois.readObject();  // BAD # Variante 12
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_12');
+    $object = unserialize($payload);  // BAD # Variante 12
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_12 = req.query.data_12;
+    const obj = eval('(' + data_12 + ')'); // BAD # Variante 12
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_12)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_12))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 12
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_12 = params[:data_12]
+    obj = YAML.load(data_12)  # BAD # Variante 12: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_13 = models.BinaryField()
+
+def store_user_data_13(user_data_13_dict):
+    data_13 = pickle.dumps(user_data_13_dict)  # BAD # Variante 13: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_13=data_13)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_13')
+    data_13 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 13: pode executar código malicioso
+    return str(data_13)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_13) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_13));
+    Object obj = ois.readObject();  // BAD # Variante 13
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_13');
+    $object = unserialize($payload);  // BAD # Variante 13
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_13 = req.query.data_13;
+    const obj = eval('(' + data_13 + ')'); // BAD # Variante 13
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_13)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_13))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 13
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_13 = params[:data_13]
+    obj = YAML.load(data_13)  # BAD # Variante 13: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_14 = models.BinaryField()
+
+def store_user_data_14(user_data_14_dict):
+    data_14 = pickle.dumps(user_data_14_dict)  # BAD # Variante 14: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_14=data_14)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_14')
+    data_14 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 14: pode executar código malicioso
+    return str(data_14)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_14) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_14));
+    Object obj = ois.readObject();  // BAD # Variante 14
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_14');
+    $object = unserialize($payload);  // BAD # Variante 14
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_14 = req.query.data_14;
+    const obj = eval('(' + data_14 + ')'); // BAD # Variante 14
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_14)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_14))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 14
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_14 = params[:data_14]
+    obj = YAML.load(data_14)  # BAD # Variante 14: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_15 = models.BinaryField()
+
+def store_user_data_15(user_data_15_dict):
+    data_15 = pickle.dumps(user_data_15_dict)  # BAD # Variante 15: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_15=data_15)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_15')
+    data_15 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 15: pode executar código malicioso
+    return str(data_15)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_15) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_15));
+    Object obj = ois.readObject();  // BAD # Variante 15
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_15');
+    $object = unserialize($payload);  // BAD # Variante 15
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_15 = req.query.data_15;
+    const obj = eval('(' + data_15 + ')'); // BAD # Variante 15
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_15)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_15))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 15
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_15 = params[:data_15]
+    obj = YAML.load(data_15)  # BAD # Variante 15: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_16 = models.BinaryField()
+
+def store_user_data_16(user_data_16_dict):
+    data_16 = pickle.dumps(user_data_16_dict)  # BAD # Variante 16: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_16=data_16)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_16')
+    data_16 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 16: pode executar código malicioso
+    return str(data_16)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_16) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_16));
+    Object obj = ois.readObject();  // BAD # Variante 16
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_16');
+    $object = unserialize($payload);  // BAD # Variante 16
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_16 = req.query.data_16;
+    const obj = eval('(' + data_16 + ')'); // BAD # Variante 16
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_16)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_16))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 16
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_16 = params[:data_16]
+    obj = YAML.load(data_16)  # BAD # Variante 16: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_17 = models.BinaryField()
+
+def store_user_data_17(user_data_17_dict):
+    data_17 = pickle.dumps(user_data_17_dict)  # BAD # Variante 17: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_17=data_17)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_17')
+    data_17 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 17: pode executar código malicioso
+    return str(data_17)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_17) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_17));
+    Object obj = ois.readObject();  // BAD # Variante 17
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_17');
+    $object = unserialize($payload);  // BAD # Variante 17
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_17 = req.query.data_17;
+    const obj = eval('(' + data_17 + ')'); // BAD # Variante 17
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_17)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_17))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 17
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_17 = params[:data_17]
+    obj = YAML.load(data_17)  # BAD # Variante 17: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_18 = models.BinaryField()
+
+def store_user_data_18(user_data_18_dict):
+    data_18 = pickle.dumps(user_data_18_dict)  # BAD # Variante 18: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_18=data_18)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_18')
+    data_18 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 18: pode executar código malicioso
+    return str(data_18)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_18) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_18));
+    Object obj = ois.readObject();  // BAD # Variante 18
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_18');
+    $object = unserialize($payload);  // BAD # Variante 18
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_18 = req.query.data_18;
+    const obj = eval('(' + data_18 + ')'); // BAD # Variante 18
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_18)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_18))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 18
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_18 = params[:data_18]
+    obj = YAML.load(data_18)  # BAD # Variante 18: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_19 = models.BinaryField()
+
+def store_user_data_19(user_data_19_dict):
+    data_19 = pickle.dumps(user_data_19_dict)  # BAD # Variante 19: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_19=data_19)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_19')
+    data_19 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 19: pode executar código malicioso
+    return str(data_19)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_19) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_19));
+    Object obj = ois.readObject();  // BAD # Variante 19
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_19');
+    $object = unserialize($payload);  // BAD # Variante 19
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_19 = req.query.data_19;
+    const obj = eval('(' + data_19 + ')'); // BAD # Variante 19
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_19)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_19))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 19
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_19 = params[:data_19]
+    obj = YAML.load(data_19)  # BAD # Variante 19: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_20 = models.BinaryField()
+
+def store_user_data_20(user_data_20_dict):
+    data_20 = pickle.dumps(user_data_20_dict)  # BAD # Variante 20: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_20=data_20)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_20')
+    data_20 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 20: pode executar código malicioso
+    return str(data_20)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_20) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_20));
+    Object obj = ois.readObject();  // BAD # Variante 20
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_20');
+    $object = unserialize($payload);  // BAD # Variante 20
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_20 = req.query.data_20;
+    const obj = eval('(' + data_20 + ')'); // BAD # Variante 20
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_20)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_20))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 20
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_20 = params[:data_20]
+    obj = YAML.load(data_20)  # BAD # Variante 20: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_21 = models.BinaryField()
+
+def store_user_data_21(user_data_21_dict):
+    data_21 = pickle.dumps(user_data_21_dict)  # BAD # Variante 21: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_21=data_21)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_21')
+    data_21 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 21: pode executar código malicioso
+    return str(data_21)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_21) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_21));
+    Object obj = ois.readObject();  // BAD # Variante 21
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_21');
+    $object = unserialize($payload);  // BAD # Variante 21
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_21 = req.query.data_21;
+    const obj = eval('(' + data_21 + ')'); // BAD # Variante 21
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_21)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_21))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 21
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_21 = params[:data_21]
+    obj = YAML.load(data_21)  # BAD # Variante 21: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_22 = models.BinaryField()
+
+def store_user_data_22(user_data_22_dict):
+    data_22 = pickle.dumps(user_data_22_dict)  # BAD # Variante 22: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_22=data_22)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_22')
+    data_22 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 22: pode executar código malicioso
+    return str(data_22)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_22) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_22));
+    Object obj = ois.readObject();  // BAD # Variante 22
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_22');
+    $object = unserialize($payload);  // BAD # Variante 22
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_22 = req.query.data_22;
+    const obj = eval('(' + data_22 + ')'); // BAD # Variante 22
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_22)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_22))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 22
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_22 = params[:data_22]
+    obj = YAML.load(data_22)  # BAD # Variante 22: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_23 = models.BinaryField()
+
+def store_user_data_23(user_data_23_dict):
+    data_23 = pickle.dumps(user_data_23_dict)  # BAD # Variante 23: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_23=data_23)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_23')
+    data_23 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 23: pode executar código malicioso
+    return str(data_23)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_23) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_23));
+    Object obj = ois.readObject();  // BAD # Variante 23
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_23');
+    $object = unserialize($payload);  // BAD # Variante 23
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_23 = req.query.data_23;
+    const obj = eval('(' + data_23 + ')'); // BAD # Variante 23
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_23)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_23))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 23
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_23 = params[:data_23]
+    obj = YAML.load(data_23)  # BAD # Variante 23: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_24 = models.BinaryField()
+
+def store_user_data_24(user_data_24_dict):
+    data_24 = pickle.dumps(user_data_24_dict)  # BAD # Variante 24: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_24=data_24)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_24')
+    data_24 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 24: pode executar código malicioso
+    return str(data_24)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_24) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_24));
+    Object obj = ois.readObject();  // BAD # Variante 24
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_24');
+    $object = unserialize($payload);  // BAD # Variante 24
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_24 = req.query.data_24;
+    const obj = eval('(' + data_24 + ')'); // BAD # Variante 24
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_24)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_24))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 24
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_24 = params[:data_24]
+    obj = YAML.load(data_24)  # BAD # Variante 24: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_25 = models.BinaryField()
+
+def store_user_data_25(user_data_25_dict):
+    data_25 = pickle.dumps(user_data_25_dict)  # BAD # Variante 25: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_25=data_25)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_25')
+    data_25 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 25: pode executar código malicioso
+    return str(data_25)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_25) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_25));
+    Object obj = ois.readObject();  // BAD # Variante 25
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_25');
+    $object = unserialize($payload);  // BAD # Variante 25
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_25 = req.query.data_25;
+    const obj = eval('(' + data_25 + ')'); // BAD # Variante 25
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_25)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_25))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 25
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_25 = params[:data_25]
+    obj = YAML.load(data_25)  # BAD # Variante 25: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_26 = models.BinaryField()
+
+def store_user_data_26(user_data_26_dict):
+    data_26 = pickle.dumps(user_data_26_dict)  # BAD # Variante 26: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_26=data_26)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_26')
+    data_26 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 26: pode executar código malicioso
+    return str(data_26)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_26) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_26));
+    Object obj = ois.readObject();  // BAD # Variante 26
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_26');
+    $object = unserialize($payload);  // BAD # Variante 26
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_26 = req.query.data_26;
+    const obj = eval('(' + data_26 + ')'); // BAD # Variante 26
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_26)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_26))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 26
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_26 = params[:data_26]
+    obj = YAML.load(data_26)  # BAD # Variante 26: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_27 = models.BinaryField()
+
+def store_user_data_27(user_data_27_dict):
+    data_27 = pickle.dumps(user_data_27_dict)  # BAD # Variante 27: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_27=data_27)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_27')
+    data_27 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 27: pode executar código malicioso
+    return str(data_27)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_27) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_27));
+    Object obj = ois.readObject();  // BAD # Variante 27
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_27');
+    $object = unserialize($payload);  // BAD # Variante 27
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_27 = req.query.data_27;
+    const obj = eval('(' + data_27 + ')'); // BAD # Variante 27
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_27)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_27))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 27
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_27 = params[:data_27]
+    obj = YAML.load(data_27)  # BAD # Variante 27: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_28 = models.BinaryField()
+
+def store_user_data_28(user_data_28_dict):
+    data_28 = pickle.dumps(user_data_28_dict)  # BAD # Variante 28: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_28=data_28)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_28')
+    data_28 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 28: pode executar código malicioso
+    return str(data_28)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_28) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_28));
+    Object obj = ois.readObject();  // BAD # Variante 28
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_28');
+    $object = unserialize($payload);  // BAD # Variante 28
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_28 = req.query.data_28;
+    const obj = eval('(' + data_28 + ')'); // BAD # Variante 28
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_28)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_28))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 28
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_28 = params[:data_28]
+    obj = YAML.load(data_28)  # BAD # Variante 28: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_29 = models.BinaryField()
+
+def store_user_data_29(user_data_29_dict):
+    data_29 = pickle.dumps(user_data_29_dict)  # BAD # Variante 29: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_29=data_29)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_29')
+    data_29 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 29: pode executar código malicioso
+    return str(data_29)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_29) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_29));
+    Object obj = ois.readObject();  // BAD # Variante 29
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_29');
+    $object = unserialize($payload);  // BAD # Variante 29
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_29 = req.query.data_29;
+    const obj = eval('(' + data_29 + ')'); // BAD # Variante 29
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_29)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_29))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 29
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_29 = params[:data_29]
+    obj = YAML.load(data_29)  # BAD # Variante 29: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_30 = models.BinaryField()
+
+def store_user_data_30(user_data_30_dict):
+    data_30 = pickle.dumps(user_data_30_dict)  # BAD # Variante 30: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_30=data_30)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_30')
+    data_30 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 30: pode executar código malicioso
+    return str(data_30)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_30) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_30));
+    Object obj = ois.readObject();  // BAD # Variante 30
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_30');
+    $object = unserialize($payload);  // BAD # Variante 30
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_30 = req.query.data_30;
+    const obj = eval('(' + data_30 + ')'); // BAD # Variante 30
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_30)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_30))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 30
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_30 = params[:data_30]
+    obj = YAML.load(data_30)  # BAD # Variante 30: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_31 = models.BinaryField()
+
+def store_user_data_31(user_data_31_dict):
+    data_31 = pickle.dumps(user_data_31_dict)  # BAD # Variante 31: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_31=data_31)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_31')
+    data_31 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 31: pode executar código malicioso
+    return str(data_31)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_31) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_31));
+    Object obj = ois.readObject();  // BAD # Variante 31
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_31');
+    $object = unserialize($payload);  // BAD # Variante 31
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_31 = req.query.data_31;
+    const obj = eval('(' + data_31 + ')'); // BAD # Variante 31
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_31)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_31))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 31
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_31 = params[:data_31]
+    obj = YAML.load(data_31)  # BAD # Variante 31: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_32 = models.BinaryField()
+
+def store_user_data_32(user_data_32_dict):
+    data_32 = pickle.dumps(user_data_32_dict)  # BAD # Variante 32: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_32=data_32)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_32')
+    data_32 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 32: pode executar código malicioso
+    return str(data_32)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_32) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_32));
+    Object obj = ois.readObject();  // BAD # Variante 32
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_32');
+    $object = unserialize($payload);  // BAD # Variante 32
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_32 = req.query.data_32;
+    const obj = eval('(' + data_32 + ')'); // BAD # Variante 32
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_32)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_32))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 32
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_32 = params[:data_32]
+    obj = YAML.load(data_32)  # BAD # Variante 32: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_33 = models.BinaryField()
+
+def store_user_data_33(user_data_33_dict):
+    data_33 = pickle.dumps(user_data_33_dict)  # BAD # Variante 33: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_33=data_33)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_33')
+    data_33 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 33: pode executar código malicioso
+    return str(data_33)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_33) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_33));
+    Object obj = ois.readObject();  // BAD # Variante 33
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_33');
+    $object = unserialize($payload);  // BAD # Variante 33
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_33 = req.query.data_33;
+    const obj = eval('(' + data_33 + ')'); // BAD # Variante 33
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_33)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_33))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 33
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_33 = params[:data_33]
+    obj = YAML.load(data_33)  # BAD # Variante 33: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_34 = models.BinaryField()
+
+def store_user_data_34(user_data_34_dict):
+    data_34 = pickle.dumps(user_data_34_dict)  # BAD # Variante 34: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_34=data_34)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_34')
+    data_34 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 34: pode executar código malicioso
+    return str(data_34)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_34) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_34));
+    Object obj = ois.readObject();  // BAD # Variante 34
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_34');
+    $object = unserialize($payload);  // BAD # Variante 34
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_34 = req.query.data_34;
+    const obj = eval('(' + data_34 + ')'); // BAD # Variante 34
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_34)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_34))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 34
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_34 = params[:data_34]
+    obj = YAML.load(data_34)  # BAD # Variante 34: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_35 = models.BinaryField()
+
+def store_user_data_35(user_data_35_dict):
+    data_35 = pickle.dumps(user_data_35_dict)  # BAD # Variante 35: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_35=data_35)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_35')
+    data_35 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 35: pode executar código malicioso
+    return str(data_35)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_35) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_35));
+    Object obj = ois.readObject();  // BAD # Variante 35
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_35');
+    $object = unserialize($payload);  // BAD # Variante 35
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_35 = req.query.data_35;
+    const obj = eval('(' + data_35 + ')'); // BAD # Variante 35
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_35)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_35))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 35
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_35 = params[:data_35]
+    obj = YAML.load(data_35)  # BAD # Variante 35: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_36 = models.BinaryField()
+
+def store_user_data_36(user_data_36_dict):
+    data_36 = pickle.dumps(user_data_36_dict)  # BAD # Variante 36: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_36=data_36)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_36')
+    data_36 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 36: pode executar código malicioso
+    return str(data_36)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_36) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_36));
+    Object obj = ois.readObject();  // BAD # Variante 36
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_36');
+    $object = unserialize($payload);  // BAD # Variante 36
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_36 = req.query.data_36;
+    const obj = eval('(' + data_36 + ')'); // BAD # Variante 36
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_36)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_36))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 36
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_36 = params[:data_36]
+    obj = YAML.load(data_36)  # BAD # Variante 36: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_37 = models.BinaryField()
+
+def store_user_data_37(user_data_37_dict):
+    data_37 = pickle.dumps(user_data_37_dict)  # BAD # Variante 37: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_37=data_37)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_37')
+    data_37 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 37: pode executar código malicioso
+    return str(data_37)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_37) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_37));
+    Object obj = ois.readObject();  // BAD # Variante 37
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_37');
+    $object = unserialize($payload);  // BAD # Variante 37
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_37 = req.query.data_37;
+    const obj = eval('(' + data_37 + ')'); // BAD # Variante 37
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_37)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_37))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 37
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_37 = params[:data_37]
+    obj = YAML.load(data_37)  # BAD # Variante 37: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_38 = models.BinaryField()
+
+def store_user_data_38(user_data_38_dict):
+    data_38 = pickle.dumps(user_data_38_dict)  # BAD # Variante 38: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_38=data_38)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_38')
+    data_38 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 38: pode executar código malicioso
+    return str(data_38)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_38) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_38));
+    Object obj = ois.readObject();  // BAD # Variante 38
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_38');
+    $object = unserialize($payload);  // BAD # Variante 38
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_38 = req.query.data_38;
+    const obj = eval('(' + data_38 + ')'); // BAD # Variante 38
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_38)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_38))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 38
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_38 = params[:data_38]
+    obj = YAML.load(data_38)  # BAD # Variante 38: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_39 = models.BinaryField()
+
+def store_user_data_39(user_data_39_dict):
+    data_39 = pickle.dumps(user_data_39_dict)  # BAD # Variante 39: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_39=data_39)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_39')
+    data_39 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 39: pode executar código malicioso
+    return str(data_39)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_39) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_39));
+    Object obj = ois.readObject();  // BAD # Variante 39
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_39');
+    $object = unserialize($payload);  // BAD # Variante 39
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_39 = req.query.data_39;
+    const obj = eval('(' + data_39 + ')'); // BAD # Variante 39
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_39)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_39))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 39
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_39 = params[:data_39]
+    obj = YAML.load(data_39)  # BAD # Variante 39: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_40 = models.BinaryField()
+
+def store_user_data_40(user_data_40_dict):
+    data_40 = pickle.dumps(user_data_40_dict)  # BAD # Variante 40: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_40=data_40)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_40')
+    data_40 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 40: pode executar código malicioso
+    return str(data_40)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_40) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_40));
+    Object obj = ois.readObject();  // BAD # Variante 40
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_40');
+    $object = unserialize($payload);  // BAD # Variante 40
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_40 = req.query.data_40;
+    const obj = eval('(' + data_40 + ')'); // BAD # Variante 40
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_40)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_40))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 40
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_40 = params[:data_40]
+    obj = YAML.load(data_40)  # BAD # Variante 40: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_41 = models.BinaryField()
+
+def store_user_data_41(user_data_41_dict):
+    data_41 = pickle.dumps(user_data_41_dict)  # BAD # Variante 41: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_41=data_41)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_41')
+    data_41 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 41: pode executar código malicioso
+    return str(data_41)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_41) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_41));
+    Object obj = ois.readObject();  // BAD # Variante 41
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_41');
+    $object = unserialize($payload);  // BAD # Variante 41
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_41 = req.query.data_41;
+    const obj = eval('(' + data_41 + ')'); // BAD # Variante 41
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_41)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_41))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 41
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_41 = params[:data_41]
+    obj = YAML.load(data_41)  # BAD # Variante 41: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_42 = models.BinaryField()
+
+def store_user_data_42(user_data_42_dict):
+    data_42 = pickle.dumps(user_data_42_dict)  # BAD # Variante 42: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_42=data_42)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_42')
+    data_42 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 42: pode executar código malicioso
+    return str(data_42)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_42) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_42));
+    Object obj = ois.readObject();  // BAD # Variante 42
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_42');
+    $object = unserialize($payload);  // BAD # Variante 42
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_42 = req.query.data_42;
+    const obj = eval('(' + data_42 + ')'); // BAD # Variante 42
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_42)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_42))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 42
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_42 = params[:data_42]
+    obj = YAML.load(data_42)  # BAD # Variante 42: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_43 = models.BinaryField()
+
+def store_user_data_43(user_data_43_dict):
+    data_43 = pickle.dumps(user_data_43_dict)  # BAD # Variante 43: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_43=data_43)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_43')
+    data_43 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 43: pode executar código malicioso
+    return str(data_43)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_43) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_43));
+    Object obj = ois.readObject();  // BAD # Variante 43
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_43');
+    $object = unserialize($payload);  // BAD # Variante 43
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_43 = req.query.data_43;
+    const obj = eval('(' + data_43 + ')'); // BAD # Variante 43
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_43)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_43))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 43
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_43 = params[:data_43]
+    obj = YAML.load(data_43)  # BAD # Variante 43: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_44 = models.BinaryField()
+
+def store_user_data_44(user_data_44_dict):
+    data_44 = pickle.dumps(user_data_44_dict)  # BAD # Variante 44: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_44=data_44)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_44')
+    data_44 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 44: pode executar código malicioso
+    return str(data_44)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_44) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_44));
+    Object obj = ois.readObject();  // BAD # Variante 44
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_44');
+    $object = unserialize($payload);  // BAD # Variante 44
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_44 = req.query.data_44;
+    const obj = eval('(' + data_44 + ')'); // BAD # Variante 44
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_44)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_44))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 44
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_44 = params[:data_44]
+    obj = YAML.load(data_44)  # BAD # Variante 44: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_45 = models.BinaryField()
+
+def store_user_data_45(user_data_45_dict):
+    data_45 = pickle.dumps(user_data_45_dict)  # BAD # Variante 45: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_45=data_45)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_45')
+    data_45 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 45: pode executar código malicioso
+    return str(data_45)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_45) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_45));
+    Object obj = ois.readObject();  // BAD # Variante 45
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_45');
+    $object = unserialize($payload);  // BAD # Variante 45
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_45 = req.query.data_45;
+    const obj = eval('(' + data_45 + ')'); // BAD # Variante 45
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_45)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_45))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 45
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_45 = params[:data_45]
+    obj = YAML.load(data_45)  # BAD # Variante 45: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_46 = models.BinaryField()
+
+def store_user_data_46(user_data_46_dict):
+    data_46 = pickle.dumps(user_data_46_dict)  # BAD # Variante 46: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_46=data_46)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_46')
+    data_46 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 46: pode executar código malicioso
+    return str(data_46)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_46) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_46));
+    Object obj = ois.readObject();  // BAD # Variante 46
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_46');
+    $object = unserialize($payload);  // BAD # Variante 46
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_46 = req.query.data_46;
+    const obj = eval('(' + data_46 + ')'); // BAD # Variante 46
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_46)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_46))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 46
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_46 = params[:data_46]
+    obj = YAML.load(data_46)  # BAD # Variante 46: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_47 = models.BinaryField()
+
+def store_user_data_47(user_data_47_dict):
+    data_47 = pickle.dumps(user_data_47_dict)  # BAD # Variante 47: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_47=data_47)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_47')
+    data_47 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 47: pode executar código malicioso
+    return str(data_47)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_47) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_47));
+    Object obj = ois.readObject();  // BAD # Variante 47
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_47');
+    $object = unserialize($payload);  // BAD # Variante 47
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_47 = req.query.data_47;
+    const obj = eval('(' + data_47 + ')'); // BAD # Variante 47
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_47)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_47))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 47
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_47 = params[:data_47]
+    obj = YAML.load(data_47)  # BAD # Variante 47: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_48 = models.BinaryField()
+
+def store_user_data_48(user_data_48_dict):
+    data_48 = pickle.dumps(user_data_48_dict)  # BAD # Variante 48: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_48=data_48)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_48')
+    data_48 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 48: pode executar código malicioso
+    return str(data_48)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_48) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_48));
+    Object obj = ois.readObject();  // BAD # Variante 48
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_48');
+    $object = unserialize($payload);  // BAD # Variante 48
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_48 = req.query.data_48;
+    const obj = eval('(' + data_48 + ')'); // BAD # Variante 48
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_48)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_48))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 48
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_48 = params[:data_48]
+    obj = YAML.load(data_48)  # BAD # Variante 48: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_49 = models.BinaryField()
+
+def store_user_data_49(user_data_49_dict):
+    data_49 = pickle.dumps(user_data_49_dict)  # BAD # Variante 49: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_49=data_49)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_49')
+    data_49 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 49: pode executar código malicioso
+    return str(data_49)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_49) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_49));
+    Object obj = ois.readObject();  // BAD # Variante 49
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_49');
+    $object = unserialize($payload);  // BAD # Variante 49
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_49 = req.query.data_49;
+    const obj = eval('(' + data_49 + ')'); // BAD # Variante 49
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_49)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_49))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 49
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_49 = params[:data_49]
+    obj = YAML.load(data_49)  # BAD # Variante 49: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_50 = models.BinaryField()
+
+def store_user_data_50(user_data_50_dict):
+    data_50 = pickle.dumps(user_data_50_dict)  # BAD # Variante 50: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_50=data_50)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_50')
+    data_50 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 50: pode executar código malicioso
+    return str(data_50)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_50) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_50));
+    Object obj = ois.readObject();  // BAD # Variante 50
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_50');
+    $object = unserialize($payload);  // BAD # Variante 50
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_50 = req.query.data_50;
+    const obj = eval('(' + data_50 + ')'); // BAD # Variante 50
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_50)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_50))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 50
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_50 = params[:data_50]
+    obj = YAML.load(data_50)  # BAD # Variante 50: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_51 = models.BinaryField()
+
+def store_user_data_51(user_data_51_dict):
+    data_51 = pickle.dumps(user_data_51_dict)  # BAD # Variante 51: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_51=data_51)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_51')
+    data_51 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 51: pode executar código malicioso
+    return str(data_51)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_51) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_51));
+    Object obj = ois.readObject();  // BAD # Variante 51
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_51');
+    $object = unserialize($payload);  // BAD # Variante 51
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_51 = req.query.data_51;
+    const obj = eval('(' + data_51 + ')'); // BAD # Variante 51
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_51)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_51))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 51
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_51 = params[:data_51]
+    obj = YAML.load(data_51)  # BAD # Variante 51: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_52 = models.BinaryField()
+
+def store_user_data_52(user_data_52_dict):
+    data_52 = pickle.dumps(user_data_52_dict)  # BAD # Variante 52: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_52=data_52)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_52')
+    data_52 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 52: pode executar código malicioso
+    return str(data_52)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_52) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_52));
+    Object obj = ois.readObject();  // BAD # Variante 52
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_52');
+    $object = unserialize($payload);  // BAD # Variante 52
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_52 = req.query.data_52;
+    const obj = eval('(' + data_52 + ')'); // BAD # Variante 52
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_52)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_52))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 52
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_52 = params[:data_52]
+    obj = YAML.load(data_52)  # BAD # Variante 52: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_53 = models.BinaryField()
+
+def store_user_data_53(user_data_53_dict):
+    data_53 = pickle.dumps(user_data_53_dict)  # BAD # Variante 53: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_53=data_53)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_53')
+    data_53 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 53: pode executar código malicioso
+    return str(data_53)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_53) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_53));
+    Object obj = ois.readObject();  // BAD # Variante 53
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_53');
+    $object = unserialize($payload);  // BAD # Variante 53
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_53 = req.query.data_53;
+    const obj = eval('(' + data_53 + ')'); // BAD # Variante 53
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_53)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_53))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 53
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_53 = params[:data_53]
+    obj = YAML.load(data_53)  # BAD # Variante 53: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_54 = models.BinaryField()
+
+def store_user_data_54(user_data_54_dict):
+    data_54 = pickle.dumps(user_data_54_dict)  # BAD # Variante 54: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_54=data_54)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_54')
+    data_54 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 54: pode executar código malicioso
+    return str(data_54)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_54) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_54));
+    Object obj = ois.readObject();  // BAD # Variante 54
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_54');
+    $object = unserialize($payload);  // BAD # Variante 54
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_54 = req.query.data_54;
+    const obj = eval('(' + data_54 + ')'); // BAD # Variante 54
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_54)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_54))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 54
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_54 = params[:data_54]
+    obj = YAML.load(data_54)  # BAD # Variante 54: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_55 = models.BinaryField()
+
+def store_user_data_55(user_data_55_dict):
+    data_55 = pickle.dumps(user_data_55_dict)  # BAD # Variante 55: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_55=data_55)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_55')
+    data_55 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 55: pode executar código malicioso
+    return str(data_55)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_55) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_55));
+    Object obj = ois.readObject();  // BAD # Variante 55
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_55');
+    $object = unserialize($payload);  // BAD # Variante 55
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_55 = req.query.data_55;
+    const obj = eval('(' + data_55 + ')'); // BAD # Variante 55
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_55)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_55))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 55
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_55 = params[:data_55]
+    obj = YAML.load(data_55)  # BAD # Variante 55: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_56 = models.BinaryField()
+
+def store_user_data_56(user_data_56_dict):
+    data_56 = pickle.dumps(user_data_56_dict)  # BAD # Variante 56: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_56=data_56)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_56')
+    data_56 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 56: pode executar código malicioso
+    return str(data_56)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_56) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_56));
+    Object obj = ois.readObject();  // BAD # Variante 56
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_56');
+    $object = unserialize($payload);  // BAD # Variante 56
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_56 = req.query.data_56;
+    const obj = eval('(' + data_56 + ')'); // BAD # Variante 56
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_56)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_56))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 56
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_56 = params[:data_56]
+    obj = YAML.load(data_56)  # BAD # Variante 56: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_57 = models.BinaryField()
+
+def store_user_data_57(user_data_57_dict):
+    data_57 = pickle.dumps(user_data_57_dict)  # BAD # Variante 57: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_57=data_57)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_57')
+    data_57 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 57: pode executar código malicioso
+    return str(data_57)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_57) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_57));
+    Object obj = ois.readObject();  // BAD # Variante 57
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_57');
+    $object = unserialize($payload);  // BAD # Variante 57
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_57 = req.query.data_57;
+    const obj = eval('(' + data_57 + ')'); // BAD # Variante 57
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_57)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_57))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 57
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_57 = params[:data_57]
+    obj = YAML.load(data_57)  # BAD # Variante 57: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_58 = models.BinaryField()
+
+def store_user_data_58(user_data_58_dict):
+    data_58 = pickle.dumps(user_data_58_dict)  # BAD # Variante 58: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_58=data_58)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_58')
+    data_58 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 58: pode executar código malicioso
+    return str(data_58)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_58) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_58));
+    Object obj = ois.readObject();  // BAD # Variante 58
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_58');
+    $object = unserialize($payload);  // BAD # Variante 58
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_58 = req.query.data_58;
+    const obj = eval('(' + data_58 + ')'); // BAD # Variante 58
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_58)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_58))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 58
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_58 = params[:data_58]
+    obj = YAML.load(data_58)  # BAD # Variante 58: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_59 = models.BinaryField()
+
+def store_user_data_59(user_data_59_dict):
+    data_59 = pickle.dumps(user_data_59_dict)  # BAD # Variante 59: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_59=data_59)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_59')
+    data_59 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 59: pode executar código malicioso
+    return str(data_59)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_59) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_59));
+    Object obj = ois.readObject();  // BAD # Variante 59
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_59');
+    $object = unserialize($payload);  // BAD # Variante 59
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_59 = req.query.data_59;
+    const obj = eval('(' + data_59 + ')'); // BAD # Variante 59
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_59)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_59))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 59
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_59 = params[:data_59]
+    obj = YAML.load(data_59)  # BAD # Variante 59: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_60 = models.BinaryField()
+
+def store_user_data_60(user_data_60_dict):
+    data_60 = pickle.dumps(user_data_60_dict)  # BAD # Variante 60: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_60=data_60)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_60')
+    data_60 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 60: pode executar código malicioso
+    return str(data_60)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_60) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_60));
+    Object obj = ois.readObject();  // BAD # Variante 60
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_60');
+    $object = unserialize($payload);  // BAD # Variante 60
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_60 = req.query.data_60;
+    const obj = eval('(' + data_60 + ')'); // BAD # Variante 60
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_60)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_60))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 60
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_60 = params[:data_60]
+    obj = YAML.load(data_60)  # BAD # Variante 60: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_61 = models.BinaryField()
+
+def store_user_data_61(user_data_61_dict):
+    data_61 = pickle.dumps(user_data_61_dict)  # BAD # Variante 61: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_61=data_61)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_61')
+    data_61 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 61: pode executar código malicioso
+    return str(data_61)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_61) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_61));
+    Object obj = ois.readObject();  // BAD # Variante 61
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_61');
+    $object = unserialize($payload);  // BAD # Variante 61
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_61 = req.query.data_61;
+    const obj = eval('(' + data_61 + ')'); // BAD # Variante 61
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_61)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_61))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 61
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_61 = params[:data_61]
+    obj = YAML.load(data_61)  # BAD # Variante 61: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_62 = models.BinaryField()
+
+def store_user_data_62(user_data_62_dict):
+    data_62 = pickle.dumps(user_data_62_dict)  # BAD # Variante 62: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_62=data_62)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_62')
+    data_62 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 62: pode executar código malicioso
+    return str(data_62)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_62) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_62));
+    Object obj = ois.readObject();  // BAD # Variante 62
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_62');
+    $object = unserialize($payload);  // BAD # Variante 62
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_62 = req.query.data_62;
+    const obj = eval('(' + data_62 + ')'); // BAD # Variante 62
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_62)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_62))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 62
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_62 = params[:data_62]
+    obj = YAML.load(data_62)  # BAD # Variante 62: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_63 = models.BinaryField()
+
+def store_user_data_63(user_data_63_dict):
+    data_63 = pickle.dumps(user_data_63_dict)  # BAD # Variante 63: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_63=data_63)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_63')
+    data_63 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 63: pode executar código malicioso
+    return str(data_63)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_63) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_63));
+    Object obj = ois.readObject();  // BAD # Variante 63
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_63');
+    $object = unserialize($payload);  // BAD # Variante 63
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_63 = req.query.data_63;
+    const obj = eval('(' + data_63 + ')'); // BAD # Variante 63
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_63)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_63))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 63
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_63 = params[:data_63]
+    obj = YAML.load(data_63)  # BAD # Variante 63: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_64 = models.BinaryField()
+
+def store_user_data_64(user_data_64_dict):
+    data_64 = pickle.dumps(user_data_64_dict)  # BAD # Variante 64: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_64=data_64)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_64')
+    data_64 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 64: pode executar código malicioso
+    return str(data_64)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_64) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_64));
+    Object obj = ois.readObject();  // BAD # Variante 64
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_64');
+    $object = unserialize($payload);  // BAD # Variante 64
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_64 = req.query.data_64;
+    const obj = eval('(' + data_64 + ')'); // BAD # Variante 64
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_64)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_64))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 64
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_64 = params[:data_64]
+    obj = YAML.load(data_64)  # BAD # Variante 64: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_65 = models.BinaryField()
+
+def store_user_data_65(user_data_65_dict):
+    data_65 = pickle.dumps(user_data_65_dict)  # BAD # Variante 65: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_65=data_65)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_65')
+    data_65 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 65: pode executar código malicioso
+    return str(data_65)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_65) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_65));
+    Object obj = ois.readObject();  // BAD # Variante 65
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_65');
+    $object = unserialize($payload);  // BAD # Variante 65
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_65 = req.query.data_65;
+    const obj = eval('(' + data_65 + ')'); // BAD # Variante 65
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_65)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_65))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 65
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_65 = params[:data_65]
+    obj = YAML.load(data_65)  # BAD # Variante 65: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_66 = models.BinaryField()
+
+def store_user_data_66(user_data_66_dict):
+    data_66 = pickle.dumps(user_data_66_dict)  # BAD # Variante 66: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_66=data_66)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_66')
+    data_66 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 66: pode executar código malicioso
+    return str(data_66)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_66) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_66));
+    Object obj = ois.readObject();  // BAD # Variante 66
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_66');
+    $object = unserialize($payload);  // BAD # Variante 66
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_66 = req.query.data_66;
+    const obj = eval('(' + data_66 + ')'); // BAD # Variante 66
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_66)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_66))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 66
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_66 = params[:data_66]
+    obj = YAML.load(data_66)  # BAD # Variante 66: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_67 = models.BinaryField()
+
+def store_user_data_67(user_data_67_dict):
+    data_67 = pickle.dumps(user_data_67_dict)  # BAD # Variante 67: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_67=data_67)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_67')
+    data_67 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 67: pode executar código malicioso
+    return str(data_67)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_67) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_67));
+    Object obj = ois.readObject();  // BAD # Variante 67
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_67');
+    $object = unserialize($payload);  // BAD # Variante 67
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_67 = req.query.data_67;
+    const obj = eval('(' + data_67 + ')'); // BAD # Variante 67
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_67)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_67))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 67
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_67 = params[:data_67]
+    obj = YAML.load(data_67)  # BAD # Variante 67: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_68 = models.BinaryField()
+
+def store_user_data_68(user_data_68_dict):
+    data_68 = pickle.dumps(user_data_68_dict)  # BAD # Variante 68: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_68=data_68)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_68')
+    data_68 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 68: pode executar código malicioso
+    return str(data_68)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_68) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_68));
+    Object obj = ois.readObject();  // BAD # Variante 68
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_68');
+    $object = unserialize($payload);  // BAD # Variante 68
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_68 = req.query.data_68;
+    const obj = eval('(' + data_68 + ')'); // BAD # Variante 68
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_68)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_68))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 68
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_68 = params[:data_68]
+    obj = YAML.load(data_68)  # BAD # Variante 68: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_69 = models.BinaryField()
+
+def store_user_data_69(user_data_69_dict):
+    data_69 = pickle.dumps(user_data_69_dict)  # BAD # Variante 69: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_69=data_69)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_69')
+    data_69 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 69: pode executar código malicioso
+    return str(data_69)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_69) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_69));
+    Object obj = ois.readObject();  // BAD # Variante 69
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_69');
+    $object = unserialize($payload);  // BAD # Variante 69
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_69 = req.query.data_69;
+    const obj = eval('(' + data_69 + ')'); // BAD # Variante 69
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_69)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_69))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 69
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_69 = params[:data_69]
+    obj = YAML.load(data_69)  # BAD # Variante 69: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_70 = models.BinaryField()
+
+def store_user_data_70(user_data_70_dict):
+    data_70 = pickle.dumps(user_data_70_dict)  # BAD # Variante 70: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_70=data_70)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_70')
+    data_70 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 70: pode executar código malicioso
+    return str(data_70)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_70) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_70));
+    Object obj = ois.readObject();  // BAD # Variante 70
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_70');
+    $object = unserialize($payload);  // BAD # Variante 70
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_70 = req.query.data_70;
+    const obj = eval('(' + data_70 + ')'); // BAD # Variante 70
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_70)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_70))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 70
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_70 = params[:data_70]
+    obj = YAML.load(data_70)  # BAD # Variante 70: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_71 = models.BinaryField()
+
+def store_user_data_71(user_data_71_dict):
+    data_71 = pickle.dumps(user_data_71_dict)  # BAD # Variante 71: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_71=data_71)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_71')
+    data_71 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 71: pode executar código malicioso
+    return str(data_71)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_71) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_71));
+    Object obj = ois.readObject();  // BAD # Variante 71
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_71');
+    $object = unserialize($payload);  // BAD # Variante 71
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_71 = req.query.data_71;
+    const obj = eval('(' + data_71 + ')'); // BAD # Variante 71
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_71)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_71))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 71
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_71 = params[:data_71]
+    obj = YAML.load(data_71)  # BAD # Variante 71: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_72 = models.BinaryField()
+
+def store_user_data_72(user_data_72_dict):
+    data_72 = pickle.dumps(user_data_72_dict)  # BAD # Variante 72: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_72=data_72)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_72')
+    data_72 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 72: pode executar código malicioso
+    return str(data_72)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_72) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_72));
+    Object obj = ois.readObject();  // BAD # Variante 72
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_72');
+    $object = unserialize($payload);  // BAD # Variante 72
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_72 = req.query.data_72;
+    const obj = eval('(' + data_72 + ')'); // BAD # Variante 72
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_72)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_72))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 72
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_72 = params[:data_72]
+    obj = YAML.load(data_72)  # BAD # Variante 72: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_73 = models.BinaryField()
+
+def store_user_data_73(user_data_73_dict):
+    data_73 = pickle.dumps(user_data_73_dict)  # BAD # Variante 73: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_73=data_73)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_73')
+    data_73 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 73: pode executar código malicioso
+    return str(data_73)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_73) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_73));
+    Object obj = ois.readObject();  // BAD # Variante 73
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_73');
+    $object = unserialize($payload);  // BAD # Variante 73
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_73 = req.query.data_73;
+    const obj = eval('(' + data_73 + ')'); // BAD # Variante 73
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_73)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_73))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 73
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_73 = params[:data_73]
+    obj = YAML.load(data_73)  # BAD # Variante 73: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_74 = models.BinaryField()
+
+def store_user_data_74(user_data_74_dict):
+    data_74 = pickle.dumps(user_data_74_dict)  # BAD # Variante 74: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_74=data_74)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_74')
+    data_74 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 74: pode executar código malicioso
+    return str(data_74)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_74) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_74));
+    Object obj = ois.readObject();  // BAD # Variante 74
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_74');
+    $object = unserialize($payload);  // BAD # Variante 74
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_74 = req.query.data_74;
+    const obj = eval('(' + data_74 + ')'); // BAD # Variante 74
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_74)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_74))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 74
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_74 = params[:data_74]
+    obj = YAML.load(data_74)  # BAD # Variante 74: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_75 = models.BinaryField()
+
+def store_user_data_75(user_data_75_dict):
+    data_75 = pickle.dumps(user_data_75_dict)  # BAD # Variante 75: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_75=data_75)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_75')
+    data_75 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 75: pode executar código malicioso
+    return str(data_75)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_75) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_75));
+    Object obj = ois.readObject();  // BAD # Variante 75
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_75');
+    $object = unserialize($payload);  // BAD # Variante 75
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_75 = req.query.data_75;
+    const obj = eval('(' + data_75 + ')'); // BAD # Variante 75
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_75)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_75))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 75
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_75 = params[:data_75]
+    obj = YAML.load(data_75)  # BAD # Variante 75: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_76 = models.BinaryField()
+
+def store_user_data_76(user_data_76_dict):
+    data_76 = pickle.dumps(user_data_76_dict)  # BAD # Variante 76: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_76=data_76)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_76')
+    data_76 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 76: pode executar código malicioso
+    return str(data_76)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_76) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_76));
+    Object obj = ois.readObject();  // BAD # Variante 76
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_76');
+    $object = unserialize($payload);  // BAD # Variante 76
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_76 = req.query.data_76;
+    const obj = eval('(' + data_76 + ')'); // BAD # Variante 76
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_76)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_76))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 76
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_76 = params[:data_76]
+    obj = YAML.load(data_76)  # BAD # Variante 76: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_77 = models.BinaryField()
+
+def store_user_data_77(user_data_77_dict):
+    data_77 = pickle.dumps(user_data_77_dict)  # BAD # Variante 77: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_77=data_77)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_77')
+    data_77 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 77: pode executar código malicioso
+    return str(data_77)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_77) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_77));
+    Object obj = ois.readObject();  // BAD # Variante 77
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_77');
+    $object = unserialize($payload);  // BAD # Variante 77
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_77 = req.query.data_77;
+    const obj = eval('(' + data_77 + ')'); // BAD # Variante 77
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_77)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_77))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 77
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_77 = params[:data_77]
+    obj = YAML.load(data_77)  # BAD # Variante 77: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_78 = models.BinaryField()
+
+def store_user_data_78(user_data_78_dict):
+    data_78 = pickle.dumps(user_data_78_dict)  # BAD # Variante 78: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_78=data_78)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_78')
+    data_78 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 78: pode executar código malicioso
+    return str(data_78)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_78) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_78));
+    Object obj = ois.readObject();  // BAD # Variante 78
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_78');
+    $object = unserialize($payload);  // BAD # Variante 78
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_78 = req.query.data_78;
+    const obj = eval('(' + data_78 + ')'); // BAD # Variante 78
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_78)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_78))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 78
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_78 = params[:data_78]
+    obj = YAML.load(data_78)  # BAD # Variante 78: executa código Ruby
+    render plain: obj.to_s
+  end
+end
+--valknut--satty--
+# Django - Usando pickle em um campo de modelo (inseguro)
+import pickle
+from django.db import models
+
+class UserData(models.Model):
+    data_79 = models.BinaryField()
+
+def store_user_data_79(user_data_79_dict):
+    data_79 = pickle.dumps(user_data_79_dict)  # BAD # Variante 79: pode permitir RCE se dados forem manipulados
+    UserData.objects.create(data_79=data_79)
+--valknut--satty--
+# Flask - Desserialização insegura de cookie
+from flask import Flask, request
+import pickle
+
+app = Flask(__name__)
+
+@app.route('/load')
+def load():
+    payload = request.args.get('data_79')
+    data_79 = pickle.loads(bytes.fromhex(payload))  # BAD # Variante 79: pode executar código malicioso
+    return str(data_79)
+--valknut--satty--
+// Spring Boot - Desserialização insegura
+@PostMapping("/deserialize")
+public String deserialize(@RequestBody byte[] data_79) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data_79));
+    Object obj = ois.readObject();  // BAD # Variante 79
+    return obj.toString();
+}
+--valknut--satty--
+// Laravel - desserialização de input
+Route::post('/load', function(Request $request) {
+    $payload = $request->input('data_79');
+    $object = unserialize($payload);  // BAD # Variante 79
+    return response()->json($object);
+});
+--valknut--satty--
+// Node.js + Express - desserialização insegura com eval
+const express = require('express');
+const app = express();
+
+app.get('/load', (req, res) => {
+    const data_79 = req.query.data_79;
+    const obj = eval('(' + data_79 + ')'); // BAD # Variante 79
+    res.send(obj);
+});
+--valknut--satty--
+// ASP.NET - desserialização com BinaryFormatter
+[HttpPost]
+public ActionResult Deserialize(byte[] data_79)
+{
+    var formatter = new BinaryFormatter();
+    using (var stream = new MemoryStream(data_79))
+    {
+        var obj = formatter.Deserialize(stream); // BAD # Variante 79
+        return Content(obj.ToString());
+    }
+}
+--valknut--satty--
+# Ruby on Rails - yaml.load pode ser perigoso
+require 'yaml'
+
+class PayloadController < ApplicationController
+  def load
+    data_79 = params[:data_79]
+    obj = YAML.load(data_79)  # BAD # Variante 79: executa código Ruby
+    render plain: obj.to_s
+  end
+end

@@ -1,0 +1,7 @@
+torch
+PyGithub
+requests
+chromadb
+sentence-transformers
+python-dotenv
+accelerate
